@@ -1,7 +1,7 @@
 #!/bin/bash
 # trap 'echo before execute line:$LINENO' DEBUG
 
-BASE=$(cd "$(dirname $0)" || exit; pwd -P)
+BASE=$(cd "$(dirname $0)1" || exit; pwd -P)
 
 WORK_DIR=${BASE}/Exercise
 

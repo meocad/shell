@@ -1,0 +1,84 @@
+#!/bin/bash 
+
+ip_addr=$(cat ./iplist)
+
+do_ok() {
+read -p"输入y进入执行过程[按q退出]:" exe
+	while [ $exe != 'y' -a $exe != 'q' ]
+        do
+	    read -p"输入有误，继续输入[按q退出]:" exe
+	    if [[ $exe == 'q' ]];then 
+		exit
+	    fi
+	done
+}
+
+for ip in $ip_addr
+do
+    req=''
+    filename=$(echo $ip|cut -d'.' -f4)
+    
+    echo "检查并确认没有未释放的文件句柄..."
+    lsof -s 2> /dev/null | grep -i deleted
+    
+    while [[ $req != 'q' ]]
+    do
+        for content in `cat ./$filename`
+        do
+            container=$(echo $content|cut -d',' -f1)
+	    commands=$(echo $content|cut -d',' -f2|sed 's/#/ /g'|cut -d':' -f2)
+	    sourcedir=$(echo "$commands"|awk '{print $NF}')
+            mountpoint=$(awk '"'`readlink -f $sourcedir `'/"~$2"/"{t=length($2);if(t>l){l=t;m=$2}}END{print m}' /proc/mounts)
+	    
+	    echo "========= 容器检查 ============"
+            echo "IP: $ip 容器ID: $container 命令:$commands"
+            echo ""
+	    echo "检查磁盘配额: 获得容器的磁盘限额与容器内文件系统容量..."
+            docker inspect $container | grep -i diskquota
+	    docker exec $container bash -c "df -h"            
+
+	    echo "开始确认天眼系统提示的目录异常..."
+	    quotaid=$(echo -ne $($commands) >/dev/null 2>&1)
+	    if [ -z "$quotaid" ];then
+	        echo "不存在该目录$sourcedir,请确认..."
+		do_ok
+            fi
+	    
+	    destdir=$(docker inspect $container|grep -iA1 $sourcedir|grep -iA1 source|awk -F'"' 'NR>1 {print $(NF-1)}')
+            echo "获取该异常目录的真实磁盘空间占用率。"
+	    #docker exec $container bash -c "du -m --max-depth=1 ${destdir} 2>/dev/null|tail -n1"            
+	    quotadisk=$(docker inspect $container|grep -i diskqu |tail -1 |awk -F'"' '{print $(NF-1)}')
+	    echo $quotadisk 
+	    other_quota=$(echo $quotadisk|awk -F';' '{print $NF}')
+	    echo "执行目标修复磁盘容量为: $other_quota"
+	    echo
+	
+	    echo "========== 开始执行修复 ==========="
+	    echo "1. 获取最大quota_num..."
+	    quota_num=$(repquota -gans |awk -F'#|[[:blank:]]+' '{print $2}' |grep -v '^$' |sort -rn |head -1)
+	    max_quota_num=$(($quota_num + 1))
+
+	    echo "2. 设置文件系统目录的QuotaID。"
+	    echo "命令为: setfattr -n system.subtree -v $max_quota_num $sourcedir"
+	    do_ok
+	    # setfattr -n system.subtree -v $max_quota_num $sourcedir
+	   
+	    echo "3. 开始设置diskquota"
+	    echo "命令为: setquota -g $quotaid 0 $other_quota 0 0 $mountpoint"
+            do_ok
+	    # setquota -g $quotaid 0 $other_quota 0 0 $mountpoint
+	    echo
+         
+            echo "======= 验证过程 ========="
+	    echo "1. 确认该Quota ID对应的值已修复"
+	    echo "命令为:repquota -gans |grep $quotaid"
+	    # repquota -gans |grep $quotaid
+            
+	    echo "2. 登录容器，使用df和du命令查看磁盘空间占用率一致"
+	    echo "命令为: docker exec $container 'df -hT'"
+	    # docker exec $container 'df -hT'
+	    exit
+        done
+	req='q'
+    done
+done
