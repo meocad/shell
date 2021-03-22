@@ -1,0 +1,101 @@
+#!/bin/bash
+
+function tonka2 {
+local GRAY="\[\033[1;30m\]"
+local LIGHT_GRAY="\[\033[0;37m\]"
+local WHITE="\[\033[1;37m\]"
+
+local LIGHT_BLUE="\[\033[1;34m\]"
+local LIGHT_RED="\[\033[1;31m\]"
+local YELLOW="\[\033[1;33m\]"
+
+case $TERM in
+    xterm*)
+        TITLEBAR='\[\033]0;\u@\h:\w\007\]'
+        ;;
+    *)
+        TITLEBAR=""
+        ;;
+esac
+
+PS1="$TITLEBAR\
+$YELLOW-$LIGHT_BLUE-(\
+$YELLOW\u$LIGHT_BLUE@$YELLOW\h\
+$LIGHT_BLUE)-(\
+$YELLOW\$PWD\
+$LIGHT_BLUE)-$YELLOW-\
+$LIGHT_GRAY\n\
+$YELLOW-$LIGHT_BLUE-(\
+$YELLOW\$(date +%F)$LIGHT_BLUE:$YELLOW\$(date +%I:%M:%S)\
+$LIGHT_BLUE:$WHITE\$$LIGHT_BLUE)-$YELLOW-$LIGHT_GRAY "
+
+PS2="$LIGHT_BLUE-$YELLOW-$YELLOW-$LIGHT_GRAY "
+}
+
+function proml {
+local BLUE="\[\033[0;34m\]"
+local RED="\[\033[0;31m\]"
+local LIGHT_RED="\[\033[1;31m\]"
+local WHITE="\[\033[1;37m\]"
+local NO_COLOUR="\[\033[0m\]"
+case $TERM in
+    xterm*|rxvt*)
+        TITLEBAR='\[\033]0;\u@\h:\w\007\]'
+        ;;
+    *)
+        TITLEBAR=""
+        ;;
+esac
+
+PS1="${TITLEBAR}\
+$BLUE[$RED\$(date +%H%M)$BLUE]\
+$BLUE[$LIGHT_RED\u@\h:\w$BLUE]\
+$WHITE\$$NO_COLOUR "
+PS2='> '
+PS4='+ '
+}
+
+function neo_prompt {
+local GRAY="\[\033[1;30m\]"
+local LIGHT_GRAY="\[\033[0;37m\]"
+local WHITE="\[\033[1;37m\]"
+
+local LIGHT_BLUE="\[\033[1;34m\]"
+local LIGHT_RED="\[\033[1;31m\]"
+local YELLOW="\[\033[1;33m\]"
+
+case $TERM in
+    xterm*)
+        TITLEBAR='\[\033]0;\u@\h:\w\007\]'
+        ;;
+    *)
+        TITLEBAR=""
+        ;;
+esac
+
+PS1="$TITLEBAR\
+$YELLOW-$LIGHT_BLUE-(\
+$YELLOW\$(date +%F)$LIGHT_BLUE $YELLOW\$(date +%I:%M:%S)\
+$LIGHT_BLUE)-(\
+$YELLOW\$PWD\
+$LIGHT_BLUE)-$YELLOW-\
+$LIGHT_GRAY\n\
+$YELLOW-$LIGHT_BLUE-(\
+$YELLOW\u$LIGHT_BLUE@$YELLOW\h\
+$LIGHT_BLUE:$WHITE\$$LIGHT_BLUE)-$YELLOW-$LIGHT_GRAY "
+
+PS2="$LIGHT_BLUE-$YELLOW-$YELLOW-$LIGHT_GRAY "
+}
+
+# Created by KrON from windowmaker on IRC
+# Changed by Spidey 08/06
+function elite {
+PS1="\[\033[31m\]\332\304\[\033[34m\](\[\033[31m\]\u\[\033[34m\]@\[\033[31m\]\h\
+\[\033[34m\])\[\033[31m\]-\[\033[34m\](\[\033[31m\]\$(date +%I:%M%P)\
+\[\033[34m\]-:-\[\033[31m\]\$(date +%m)\[\033[34m\033[31m\]/\$(date +%d)\
+\[\033[34m\])\[\033[31m\]\304-\[\033[34m]\\371\[\033[31m\]-\371\371\
+\[\033[34m\]\372\n\[\033[31m\]\300\304\[\033[34m\](\[\033[31m\]\W\[\033[34m\])\
+\[\033[31m\]\304\371\[\033[34m\]\372\[\033[00m\]"
+PS2="> "
+}
+
