@@ -3,12 +3,18 @@
 # ScriptName: ceshi.sh
 # Author: utcmxr@outlook.com
 # Create Date: 2019-12-25 17:36
+<<<<<<< HEAD
 # Modify Author: @alibaba-inc.com
 # Modify Date: 2021-03-08 15:09
+=======
+# Modify Author: utcmxr@outlook.com
+# Modify Date: 2019-12-25 17:36
+>>>>>>> 83084917eea614b6987fb0c52b524b65f8c0646f
 # Function: 
 #***************************************************************#
 
 echo $1 $- $# $@ $! $? $$ "!$" $*
+<<<<<<< HEAD
 color_text() {
     case "$1" in
         blue)
@@ -22,3 +28,5 @@ color_text() {
     esac
 }
 color_text $1 $2
+=======
+>>>>>>> 83084917eea614b6987fb0c52b524b65f8c0646f
