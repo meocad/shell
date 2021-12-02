@@ -1,0 +1,8 @@
+# 过滤出下列的否定语句
+# can[ no']*t
+
+I can do it
+I cannot do it
+I can not do it
+I can't do it
+I cant do it

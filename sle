@@ -1,0 +1,14 @@
+#!/bin/bash  
+#Author:linuxdaxue.com
+#Date:2016-05-30
+#Desc:Shell select 练习
+PS3='Please choose your number: ' # 设置提示符字串.  
+echo
+select number in "one" "two" "three" "four" "five"  
+do  
+echo  
+echo "Your choose is $number."    
+echo  
+break  
+done 
+exit 0
