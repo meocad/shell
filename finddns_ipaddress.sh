@@ -6,20 +6,23 @@
 
 TMPFILE=$PWD/tmp.html
 WRT_F=$PWD/file_record
-parse_args() {
-    op_parse=$(echo "$1"| grep -o '\.'| grep -c '\.')
-    if [[ "$op_parse" -eq 1 ]];then
-        par_dns="$1"
-        find_dns_url="https://${1}.ipaddress.com"
-    elif [[ "$op_parse" -gt 1 ]];then
-        par_dns=$(echo "$1"| awk -F'.' '{print $(NF-1)"."$NF}')
-        url="$1"
-        find_dns_url="https://${par_dns}.ipaddress.com/$url"
-    else
-        echo "Invalid pars, please check!!!"
-        return 1
-    fi
+#parse_args() {
+#    op_parse=$(echo "$1"| grep -o '\.'| grep -c '\.')
+#    if [[ "$op_parse" -eq 1 ]];then
+#        par_dns="$1"
+#        find_dns_url="https://${1}.ipaddress.com"
+#    elif [[ "$op_parse" -gt 1 ]];then
+#        par_dns=$(echo "$1"| awk -F'.' '{print $(NF-1)"."$NF}')
+#        url="$1"
+#        find_dns_url="https://${par_dns}.ipaddress.com/$url"
+#    else
+#        echo "Invalid pars, please check!!!"
+#        return 1
+#    fi
+#}
 
+parse_args() {
+    find_dns_url="https://websites.ipaddress.com/$1"
 }
 
 echo "Parse Result:"
