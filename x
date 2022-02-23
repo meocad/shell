@@ -7,4 +7,5 @@ ybj_dev01	ybjwn	WN@hn.123	8C16GB	10.85.254.80:  eee
 ybj_dev01	ybjzhy	ZHY@hn.123	4C8GB	10.85.254.80:  fff
 ybj_dev01	ybjcz	CZ@hn.123	20C40GB	10.85.254.80:  ggg
 bj_dev01	ybjpatp	PA@hn.123	8C32GB	10.85.254.80:  hhh
+bj_dev01	ybjpatp	PA@hn.123	8C32GB	10.85.254.80:  hhh
 
