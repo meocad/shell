@@ -22,7 +22,8 @@ WRT_F=$PWD/file_record
 #}
 
 parse_args() {
-    find_dns_url="https://websites.ipaddress.com/$1"
+    #find_dns_url="https://websites.ipaddress.com/$1"
+    find_dns_url="https://ipaddress.com/website/$1"
 }
 
 echo "Parse Result:"

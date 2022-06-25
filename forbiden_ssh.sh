@@ -9,7 +9,7 @@ pidfile=/var/tmp/$0.pid
 BLACKLIST=/var/tmp/black.lst
 WHITELIST=/var/tmp/white.lst
 
-LOGFILE=/var/log/secure
+LOGFILE=/var/log/secure*
 DAY=5
 ########################################
 
@@ -39,7 +39,7 @@ do
 
     if [ $(grep -c $ipaddr ${BLACKLIST}) -eq 0 ] ; then
 		echo $ipaddr >> ${BLACKLIST}
-        iptables -I INPUT -p tcp --dport 22 -s $ipaddr -j DROP
+        iptables -I INPUT -p tcp  -s $ipaddr -j DROP
         #iptables -I INPUT -s $ipaddr -j DROP
     fi
 done
