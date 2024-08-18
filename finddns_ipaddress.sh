@@ -35,7 +35,7 @@ do
     fi
     
     dns_name=$arg
-    curl -sk $find_dns_url > $TMPFILE
+    curl -skL $find_dns_url > $TMPFILE
     ip_list=$(tidy -asxml -numeric  $TMPFILE 2>/dev/null| grep -m1 -A 10 'class="comma-separated"' | awk -F'>|<' '/li/{print $3}')
     
     printf "\t$dns_name\n"
